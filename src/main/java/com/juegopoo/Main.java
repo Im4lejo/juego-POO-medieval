@@ -17,43 +17,54 @@ public class Main {
             while(characterList2.size() !=5){
                 casa2.selectCharacter(characterList2);
             }
-
             casa1.showStats(characterList1, casa1);
             casa2.showStats(characterList2, casa2);
-            Character attacker;
-            Character attacked;
+
             double damage;
             boolean isDead;
+
             while(!Home.finishedGame(casa1,casa2)){
                 //Turno Casa 1
-                attacker = casa1.selectCharacterToAttack();
-                attacked = casa1.selectRivalToAttack();
-                if (casa1.isArcherARival(attacker, attacked)) {
-                    damage = casa1.acherIsAttacked(attacker, attacked);
+                Character attacker1 = casa1.selectCharacterToAttack(characterList1);
+                Character attacked1 = casa2.selectRivalToAttack(characterList2);
+                if (casa1.isAttackerArcher(attacker1) && casa2.isAttackerArcher(attacked1)) {
+                    damage = casa1.acherIsAttacked(attacker1, attacked1);
                 }else{
-                    damage = casa1.attackCharacter(attacker, attacked);
+                    if (casa1.isAttackerArcher(attacker1)) {
+                        damage = casa1.archerAttack(attacker1,attacked1);
+                    }else{
+                        damage = casa1.attackCharacter(attacker1, attacked1);
+                    }
                 }
-                isDead = casa1.isCharacterDead(attacked);
+                isDead = casa2.isCharacterDead(attacked1);
                 if (isDead) {
-                    casa1.setCharacterDeadHealth(attacked);
-                    casa1.CharacterDied(attacked,characterList1,deadCharacterList1);
+                    casa2.setCharacterDeadHealth(attacked1);
+                    casa2.CharacterDied(attacked1,characterList2,deadCharacterList2);
                 }
                 
-                casa1.showAttack(attacker, attacked, casa1, casa2, damage);
+                casa1.showAttack(attacker1, attacked1, casa1, casa2, damage);
                 //Turno Casa 2
-                attacker = casa2.selectCharacterToAttack();
-                attacked = casa2.selectRivalToAttack();
-                if (casa2.isArcherARival(attacker, attacked)) {
-                    damage = casa2.acherIsAttacked(attacker, attacked);
+                Character attacker2 = casa2.selectCharacterToAttack(characterList2);
+                Character attacked2 = casa1.selectRivalToAttack(characterList1);
+
+                if (casa2.isAttackerArcher(attacker2) && casa1.isAttackerArcher(attacked2)) {
+                    damage = casa2.acherIsAttacked(attacker2, attacked2);
                 }else{
-                    damage = casa2.attackCharacter(attacker, attacked);
+                    if (casa2.isAttackerArcher(attacker2)) {
+                        damage = casa2.archerAttack(attacker2,attacked2);
+                    }else{
+                        damage = casa2.attackCharacter(attacker2, attacked2);
+                    }
+                    
                 }
-                isDead = casa2.isCharacterDead(attacked);
+                isDead = casa1.isCharacterDead(attacked2);
                 if (isDead) {
-                    casa2.setCharacterDeadHealth(attacked);
-                    casa2.CharacterDied(attacked,characterList2,deadCharacterList2);
+                    casa1.setCharacterDeadHealth(attacked2);
+                    casa1.CharacterDied(attacked2,characterList1,deadCharacterList1);
                 }
-                casa2.showAttack(attacker, attacked, casa1, casa2, damage);
+                casa2.showAttack(attacker2, attacked2, casa1, casa2, damage);
+                casa1.showStats(characterList1, casa1);
+                casa2.showStats(characterList2, casa2);
             }
     }
 }

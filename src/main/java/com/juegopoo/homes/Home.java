@@ -1,12 +1,13 @@
 package com.juegopoo.homes;
-import com.juegopoo.characters.Character;
-import com.juegopoo.characters.Soldier;
-import com.juegopoo.characters.Knight;
-import com.juegopoo.characters.Archer;
-import com.juegopoo.characters.DragonRider;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+import com.juegopoo.characters.Archer;
+import com.juegopoo.characters.Character;
+import com.juegopoo.characters.DragonRider;
+import com.juegopoo.characters.Knight;
+import com.juegopoo.characters.Soldier;
 
 public class Home {
     public Scanner sc = new Scanner(System.in);
@@ -79,7 +80,7 @@ public class Home {
         }
         
     }
-    public Character selectCharacterToAttack (){
+    public Character selectCharacterToAttack (ArrayList <Character> characterList){
                 Random rand = new Random();
                 int optionAttacker= rand.nextInt(2)+1;
         if(optionAttacker >= 1 && optionAttacker <= characterList.size()){
@@ -87,7 +88,7 @@ public class Home {
         }
         return null;
     }
-    public Character selectRivalToAttack (){
+    public Character selectRivalToAttack (ArrayList <Character> characterList){
          Random rand = new Random();
          int randomNum = rand.nextInt(characterList.size()+1);
            
@@ -97,38 +98,54 @@ public class Home {
 
         return null;
         }
-        public double archerAttack (Character pa){
+        public double archerAttack (Character attacker, Character attacked){
         
         Random rand = new Random();
         int archerAttackOption = rand.nextInt(2)+1;
+        attacker = new Archer();
         switch(archerAttackOption){
             case 1 -> {  
-                pa = new Archer();
-                return pa.bowAttack();
+                double damage = attacker.bowAttack();
+                double health = attacked.getHealth();
+                double totDamage = attacked.getHealth()-(attacked.getHealth()-damage*2);
+                attacked.setHealth(health-totDamage);
+                return totDamage;
             }
             case  2 -> {
-                pa = new Archer();
-                return pa.swordAttack();
+                double damage = attacker.swordAttack();
+                double health = attacked.getHealth();
+                double totDamage = attacked.getHealth()-(attacked.getHealth()-damage*2);
+                attacked.setHealth(health-totDamage);
+                return totDamage;
             }
             default -> {
                 return 0;
             }
         }
     }
-    public boolean isArcherARival(Character attacker, Character attacked){
-        return attacker.getClasses().equals("melee") && attacked.getClasses().equals("long");
-
+    public boolean isArcherARival(Character attacked){
+        boolean attackedClass = attacked.getClasses().equals("long");
+        return attackedClass;
     }
+        public boolean isNotArcherAnAttacker(Character attacker){
+        boolean attackerClass = attacker.getClasses().equals("long");
+        return  !attackerClass ;
+    }
+    
+    public boolean isAttackerArcher(Character attacker){
+        return attacker.isArcher();
+    }
+    
     public double acherIsAttacked(Character attacker, Character attacked){
             double damage = attacker.attack();
-            double totDamage = attacked.getHealth()- (damage*2);
-            attacked.setHealth(totDamage);
+            double totDamage = attacked.getHealth()-(attacked.getHealth()-damage*2);
+            attacked.setHealth(attacked.getHealth()-totDamage);
             return totDamage;
     }
     public double attackCharacter (Character attacker, Character attacked){
         double damage = attacker.attack();
-        double totDamage = attacked.getHealth()- (damage);
-        attacked.setHealth(totDamage);
+        double totDamage = attacked.getHealth()-(attacked.getHealth()-damage);
+        attacked.setHealth(attacked.getHealth()-totDamage);
         return totDamage;
     } 
     public boolean isCharacterDead (Character attacked){
@@ -174,7 +191,7 @@ public class Home {
     }
     public void showAttack(Character attacker, Character attacked, Home casa1, Home casa2, double damage){
             System.out.println("-----------------------------------------------------------------------");
-            System.out.println("El personaje: " + attacker.getName() + " de la Casa: " + casa1.getName() + "Hace " + damage +  " de danio con: "+ attacker.getItem() + "\nHacia el personaje: " + attacked.getName() + " quedando con un total de " + attacked.getHealth());
+            System.out.println("El personaje: " + attacker.getName() + " de la Casa: " + casa1.getName() + " Hace " + damage +  " de danio con: "+ attacker.getItem() + "\nHacia el personaje: " + attacked.getName() + " quedando con un total de " + attacked.getHealth());
             System.out.println("-----------------------------------------------------------------------");
     }
 } 

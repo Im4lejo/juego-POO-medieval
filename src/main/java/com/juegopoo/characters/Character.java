@@ -45,4 +45,7 @@ public abstract class Character {
     public void setItem(String item){
         this.item= item; 
     }  
+    public boolean isArcher() {
+        return this instanceof Archer;
+    }
 }
