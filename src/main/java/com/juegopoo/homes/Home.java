@@ -100,7 +100,7 @@ public class Home {
         public double archerAttack (Character attacker, Character attacked){
         
         Random rand = new Random();
-        int archerAttackOption = rand.nextInt(2);
+        int archerAttackOption = rand.nextInt(1);
         attacker = new Archer();
         switch(archerAttackOption){
             case 0 -> {  
@@ -115,10 +115,9 @@ public class Home {
                 attacked.setHealth(attacked.getHealth()-totDamage);
                 return totDamage;
             }
-            default -> {
-                return 0;
-            }
+
         }
+        return 0;
     }
     public boolean isArcherARival(Character attacked){
         boolean attackedClass = attacked.getClasses().equals("long");
@@ -161,12 +160,15 @@ public class Home {
         return attacked.getHealth();
     }
     
-    public void CharacterDied (Character attacked, ArrayList <Character> characterList){
+    public void CharacterDied (Character attacked, ArrayList <Character> characterLis,ArrayList <Character> deadCharacterLis){
         double health = attacked.getHealth();
-        if (health == 0) {    
-            int index = characterList.indexOf(attacked);
-            Character temporal  = characterList.remove(index);
-            deadCharacterList.add(temporal);
+        System.out.println("Vida actual: " + health);
+        int index = characterLis.indexOf(attacked);
+        if (health <= 0) {    
+            if (index != -1) {
+            Character temporal = characterLis.remove(index);
+            deadCharacterLis.add(temporal);
+            }
         }
     }
     public void msgfinishedGame (Home p1, Home p2){
@@ -178,10 +180,10 @@ public class Home {
 
     }
         
-    public static boolean finishedGame (Home p1, Home p2){
-        return p1.deadCharacterList.size() == 5 || p2.deadCharacterList.size() == 5;
+    public static boolean finishedGame (Home p1, Home p2,ArrayList <Character> characterList1,ArrayList <Character> characterList2){
+        return p1.deadCharacterList.size() == 5 || p2.deadCharacterList.size() == 5 || characterList1.isEmpty() || characterList2.isEmpty();
     }
-    public void showStats (ArrayList<Character> characterLista, Home casa, ArrayList<Character> characterListaMuertos){
+    public void showStats (ArrayList<Character> characterLista, Home casa){
         System.out.println("---------------Personajes vivos-----------------");
         System.out.println("----- " + casa.getName()+ " ------");
         System.out.println();
@@ -189,8 +191,8 @@ public class Home {
             System.out.println(character.getName()+ " : " + character.getHealth() + "HP");
             System.out.println();
             }
-                    
-        if (!characterListaMuertos.isEmpty()) {
+    }
+    public void showStatsDied (ArrayList<Character> characterListaMuertos,Home casa){        
             System.out.println("---------------Personajes Muertos-----------------");
             System.out.println("-----" + casa.getName()+ "------");
             System.out.println();
@@ -198,7 +200,7 @@ public class Home {
                     System.out.println(characterMuerto.getName()+ " : " + characterMuerto.getHealth() + "HP");
                     System.out.println();
                 }
-        }
+
     }
     public void showAttack(Character attacker, Character attacked, Home casa1, Home casa2, double damage){
             System.out.println("-----------------------------------------------------------------------");
