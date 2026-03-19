@@ -48,4 +48,11 @@ public abstract class Character {
     public boolean isArcher() {
         return this instanceof Archer;
     }
+    public double heal(){
+        return 0;
+    }
+    public boolean isCurandeer() {
+        return this instanceof Curandeer;
+    }
+
 }
