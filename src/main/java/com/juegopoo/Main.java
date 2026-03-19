@@ -17,8 +17,8 @@ public class Main {
             while(characterList2.size() !=5){
                 casa2.selectCharacter(characterList2);
             }
-            casa1.showStats(characterList1, casa1);
-            casa2.showStats(characterList2, casa2);
+            casa1.showStats(characterList1, casa1, characterList1);
+            casa2.showStats(characterList2, casa2, characterList2);
 
             double damage;
             boolean isDead;
@@ -28,19 +28,24 @@ public class Main {
                 if (!characterList2.isEmpty() && !characterList1.isEmpty()) {
                 Character attacker1 = casa1.selectCharacterToAttack(characterList1);
                 Character attacked1 = casa2.selectRivalToAttack(characterList2);
-                if (casa1.isAttackerArcher(attacker1) && casa2.isAttackerArcher(attacked1)) {
+                if (casa1.isAttackerArcher(attacker1) && casa2.isAttackedArcher(attacked1)) {
                     damage = casa1.acherIsAttacked(attacker1, attacked1);
-                }else{
+                }
+                else{
                     if (casa1.isAttackerArcher(attacker1)) {
                         damage = casa1.archerAttack(attacker1,attacked1);
                     }else{
+                        
                         damage = casa1.attackCharacter(attacker1, attacked1);
                     }
+                }
+                if (casa1.isAttackerArcher(attacker1) && casa2.isAttackedArcher(attacked1)) {
+                        damage = casa1.acherIsAttacked(attacker1, attacked1);
                 }
                 isDead = casa2.isCharacterDead(attacked1);
                 if (isDead) {
                     casa2.setCharacterDeadHealth(attacked1);
-                    casa2.CharacterDied(attacked1,characterList2,deadCharacterList2);
+                    casa2.CharacterDied(attacked1,characterList2);
                 }
                 
                 casa1.showAttack(attacker1, attacked1, casa1, casa2, damage);
@@ -53,7 +58,7 @@ public class Main {
                 Character attacker2 = casa2.selectCharacterToAttack(characterList2);
                 Character attacked2 = casa1.selectRivalToAttack(characterList1);
 
-                if (casa2.isAttackerArcher(attacker2) && casa1.isAttackerArcher(attacked2)) {
+                if (casa2.isAttackerArcher(attacker2) && casa1.isAttackedArcher(attacked2)) {
                     damage = casa2.acherIsAttacked(attacker2, attacked2);
                 }else{
                     if (casa2.isAttackerArcher(attacker2)) {
@@ -63,15 +68,18 @@ public class Main {
                     }
                     
                 }
+                if (casa2.isAttackerArcher(attacker2) && casa1.isAttackedArcher(attacked2)) {
+                    damage = casa1.acherIsAttacked(attacker2, attacked2);
+                }
                 isDead = casa1.isCharacterDead(attacked2);
                 if (isDead) {
                     casa1.setCharacterDeadHealth(attacked2);
-                    casa1.CharacterDied(attacked2,characterList1,deadCharacterList1);
+                    casa1.CharacterDied(attacked2,characterList1);
                 }
                 
                 casa2.showAttack(attacker2, attacked2, casa1, casa2, damage);
-                casa1.showStats(characterList1, casa1);
-                casa2.showStats(characterList2, casa2);
+                casa1.showStats(characterList1, casa1, deadCharacterList1);
+                casa2.showStats(characterList2, casa2,deadCharacterList2);
                 }else{
                     System.out.println("La Casa " + casa1.getName() + " ha caido");
                 }

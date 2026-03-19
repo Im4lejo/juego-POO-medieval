@@ -13,14 +13,14 @@ public class Archer extends Character{
         Random rand = new Random();
         setAttackLvl(rand.nextInt(10)+1);
         int randomNum = rand.nextInt(8)+1;
-                return (getAttackLvl() + randomNum) ;
+                return getAttackLvl() + randomNum ;
 
     }
     @Override
     public double swordAttack(){
         Random rand = new Random();
         setAttackLvl(rand.nextInt(10)+1);
-                return (getAttackLvl()) + 5 ;
+                return getAttackLvl() + 5 ;
 
     }
 }
