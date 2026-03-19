@@ -25,6 +25,7 @@ public class Main {
 
             while(!Home.finishedGame(casa1,casa2)){
                 //Turno Casa 1
+                if (!characterList2.isEmpty() && !characterList1.isEmpty()) {
                 Character attacker1 = casa1.selectCharacterToAttack(characterList1);
                 Character attacked1 = casa2.selectRivalToAttack(characterList2);
                 if (casa1.isAttackerArcher(attacker1) && casa2.isAttackerArcher(attacked1)) {
@@ -43,7 +44,12 @@ public class Main {
                 }
                 
                 casa1.showAttack(attacker1, attacked1, casa1, casa2, damage);
+                }else{
+                    System.out.println("La Casa " + casa1.getName() + " ha caido");
+                }
+
                 //Turno Casa 2
+                if (!characterList1.isEmpty() && !characterList2.isEmpty()) {
                 Character attacker2 = casa2.selectCharacterToAttack(characterList2);
                 Character attacked2 = casa1.selectRivalToAttack(characterList1);
 
@@ -62,10 +68,21 @@ public class Main {
                     casa1.setCharacterDeadHealth(attacked2);
                     casa1.CharacterDied(attacked2,characterList1,deadCharacterList1);
                 }
+                
                 casa2.showAttack(attacker2, attacked2, casa1, casa2, damage);
                 casa1.showStats(characterList1, casa1);
                 casa2.showStats(characterList2, casa2);
+                }else{
+                    System.out.println("La Casa " + casa1.getName() + " ha caido");
+                }
             }
+            System.out.println("Juego Terminado!!!");
+            if (!characterList1.isEmpty()) {
+            System.out.println("El ganador es... La Casa " + casa1.getName());
+            }else{
+                System.out.println("El ganador es... La Casa " + casa2.getName());
+            }
+            
     }
 }
     

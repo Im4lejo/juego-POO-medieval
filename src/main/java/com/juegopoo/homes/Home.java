@@ -26,9 +26,9 @@ public class Home {
     public void selectCharacter(ArrayList<Character> characterLis){
                                
                 Random rand = new Random();
-                int opc= rand.nextInt(4)+1;
+                int opc= rand.nextInt(4);
             switch(opc){
-                case 1 -> {
+                case 0 -> {
                     if (limSoldier > 0) {
                         Character soldier = new Soldier();
                         characterLis.add(soldier);
@@ -40,7 +40,7 @@ public class Home {
                     }
                     break;
             }
-                case 2 -> {
+                case 1 -> {
                     if (limKnight > 0) {
 
                         Character knight = new Knight();
@@ -53,7 +53,7 @@ public class Home {
                     }
                     break;
             }
-                case 3 -> {
+                case 2 -> {
                     if (limArcher > 0) {
                         Character archer = new Archer();
                         characterLis.add(archer);
@@ -65,7 +65,7 @@ public class Home {
                     }
                     break;
                 }
-                case 4 -> {
+                case 3 -> {
                     if (limDragonRider > 0) {
                         Character dragonRider = new DragonRider();
                         characterLis.add(dragonRider);
@@ -82,18 +82,18 @@ public class Home {
     }
     public Character selectCharacterToAttack (ArrayList <Character> characterList){
                 Random rand = new Random();
-                int optionAttacker= rand.nextInt(2)+1;
-        if(optionAttacker >= 1 && optionAttacker <= characterList.size()){
-            return characterList.get(optionAttacker - 1);
+                int optionAttacker= rand.nextInt(2);
+        if(optionAttacker >= 0 && optionAttacker <= characterList.size()){
+            return characterList.get(optionAttacker);
         }
         return null;
     }
     public Character selectRivalToAttack (ArrayList <Character> characterList){
          Random rand = new Random();
-         int randomNum = rand.nextInt(characterList.size()+1);
+         int randomNum = rand.nextInt(characterList.size());
            
-        if(randomNum >= 1 && randomNum <= characterList.size()){
-            return characterList.get(randomNum - 1);
+        if(randomNum >= 0 && randomNum <= characterList.size()){
+            return characterList.get(randomNum);
         }
 
         return null;
